@@ -159,6 +159,7 @@ void Run()
         system("cls");
         UI();
         printf("도주하는데 성공하였습니다\n");
+        EventCheck();
     }
     else
     {
