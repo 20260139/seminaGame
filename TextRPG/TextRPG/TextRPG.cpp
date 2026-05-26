@@ -50,8 +50,6 @@ int main()
     speed = rand() % 10 + 1;
     maxHp = hp;
     maxDefend = defend;
-    level = 10;
-    damage = 100;
     UI();
     Turn();
 }
