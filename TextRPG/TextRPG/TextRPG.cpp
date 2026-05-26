@@ -1,4 +1,4 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <windows.h>
@@ -9,7 +9,8 @@ int hp;
 int maxDefend;
 int damage;
 int defend;
-int speed;
+float speed;
+float maxSpeed;
 int level = 1;
 float exp;
 bool battling = false;
@@ -44,12 +45,13 @@ void Boss();
 int main()
 {
     srand(time(NULL));
-    hp = rand() % 100;
+    hp = rand() % 100 + 1;
     damage = rand() % 10;
     defend = rand() % 10;
     speed = rand() % 10 + 1;
     maxHp = hp;
     maxDefend = defend;
+    maxSpeed = speed;
     UI();
     Turn();
 }
@@ -58,10 +60,10 @@ void Boss()
 {
     bossBattle = true;
     battling = true;
-    Ehp = 50;
-    Edamage = 15;
-    Edefend = 10;
-    Espeed = 5;
+    Ehp = 100;
+    Edamage = 55;
+    Edefend = 30;
+    Espeed = 40;
 
     EnemyStateView();
     SpeedCheck();
@@ -114,7 +116,9 @@ void LevelUp()
     level++;
     damage += 5;
     defend += 5;
+    maxDefend = defend;
     speed += 3;
+    maxSpeed = speed;
     exp = 0;
     Sleep(1000);
     system("cls");
@@ -125,6 +129,7 @@ void LevelUp()
 void EndCheck()
 {
     defend = maxDefend;
+    speed += 0.1;
     system("cls");
     EnemyStateView();
 
@@ -139,6 +144,7 @@ void EndCheck()
         printf("Clear\n");
         battling = false;
         exp++;
+        speed = maxSpeed;
         EventCheck();
     }
 
@@ -159,6 +165,8 @@ void Run()
         system("cls");
         UI();
         printf("도주하는데 성공하였습니다\n");
+        speed = maxSpeed;
+        battling = false;
         EventCheck();
     }
     else
@@ -230,7 +238,7 @@ void UI()
     printf("        체력: %d", hp);
     printf("        공격력: %d", damage);
     printf("        수비력: %d", defend);
-    printf("        속도: %d\n\n", speed);
+    printf("        속도: %.1f\n\n", speed);
 }
 
 void SpeedCheck()
@@ -267,16 +275,16 @@ void EnemyState(int hpDown)
 {
     if (!battling)
     {
-        Ehp = rand() % 100;
-        Edamage = rand() % 10;
-        Edefend = rand() % 10;
-        Espeed = rand() % 10;
+        Ehp = rand() % 100 + 1;
+        Edamage = rand() % 10 + (level * 3);
+        Edefend = rand() % 10 + (level * 3);
+        Espeed = rand() % 10 + (level * 3);
     }
 
     int value = hpDown - Edefend;
     if (value <= 0)
     {
-        value = 0;
+        value = 1;
     }
 
     battling = true;
