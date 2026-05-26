@@ -218,6 +218,7 @@ void EnemyTurn()
 {
     Sleep(1000);
     printf("적 공격\n");
+    Sleep(1000);
     HpDown(Edamage);
     playerTurn = true;
     EndCheck();
