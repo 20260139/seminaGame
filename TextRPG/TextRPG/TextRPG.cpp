@@ -16,6 +16,7 @@ float exp;
 bool battling = false;
 bool bossBattle = false;
 bool playerTurn = false;
+bool boss2page = false;
 
 
 int Ehp;
@@ -129,7 +130,7 @@ void LevelUp()
 void EndCheck()
 {
     defend = maxDefend;
-    speed += 0.1;
+    speed += 0.5;
     system("cls");
     EnemyStateView();
 
@@ -306,6 +307,15 @@ void HpDown(int damage)
         value = 0;
     }
     hp -= value;
+
+    if (bossBattle && Ehp <= Ehp / 2 && !boss2page)
+    {
+        printf("보스가 분노합니다\n\n");
+        Edamage *= 1.5;
+        Edefend *= 1.5;
+        boss2page = true;
+        Sleep(1000);
+    }
     system("cls");
     EnemyStateView();
 }
