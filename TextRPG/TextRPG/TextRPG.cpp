@@ -138,6 +138,7 @@ void EndCheck()
     {
         system("cls");
         printf("Game Over\n");
+        exit(0);
     }
     else if (Ehp <= 0)
     {
